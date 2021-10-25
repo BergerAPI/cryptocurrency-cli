@@ -1,17 +1,25 @@
 import asciichart from 'asciichart'
+import CoinGecko from 'coingecko-api'
 
-var arr1 = new Array(50)
-arr1[ 0 ] = Math.round(Math.random() * 15)
-for (let i = 1; i < arr1.length; i++)
-	arr1[ i ] = arr1[ i - 1 ] + Math.round(Math.random() * (Math.random() > 0.5 ? 2 : -2))
+// Our client to fetch data from CoinGecko
+const CoinGeckoClient = new CoinGecko();
 
-var config = {
-	colors: [
-		asciichart.red
-	],
-	offset: 3,
-	padding: '       ',
+// Getting the price of bitcoin (today)
+const btc = await CoinGeckoClient.coins.fetchMarketChart('btc')
+const prices = btc[ "data" ][ "prices" ]
+
+// Filling the data
+const chartData = prices.filter((_, index) => index % 2 != 0).map(value => {
+	// We want to ignore the timestamp rn
+	return value[ 1 ]
+});
+
+console.log(asciichart.green + "Bitcoin Prices this day" + asciichart.reset)
+
+console.log()
+
+console.log(asciichart.plot(chartData, {
+	colors: [ asciichart.green ],
+	offset: 5,
 	height: 10,
-}
-
-console.log(asciichart.plot(arr1, config))
+}))
