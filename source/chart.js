@@ -90,8 +90,21 @@ export function plot(series, config = undefined) {
 			result[ i ][ j ] = ' '
 		}
 	}
+
+	// Calculating the biggest label
+	let maxLabel = 0
+
+	for (let i = 0; i < series.length; i++) {
+		let label = format(rows > 0 ? max - (i - min2) * range / rows : i, i - min2)
+
+		maxLabel = Math.max(maxLabel, label.length)
+	}
+
 	for (let y = min2; y <= max2; ++y) {
 		let label = format(rows > 0 ? max - (y - min2) * range / rows : y, y - min2)
+
+		if (label.length < maxLabel)
+			label = label + ' '.repeat(maxLabel - label.length)
 
 		result[ y - min2 ][ Math.max(offset - label.length, 0) ] = label
 		result[ y - min2 ][ offset - 1 ] = (y == 0) ? symbols[ 0 ] : symbols[ 1 ]
