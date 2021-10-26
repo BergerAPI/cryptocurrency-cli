@@ -42,7 +42,7 @@ export const WHITE = "\x1b[97m"
 export const RESET = "\x1b[0m"
 
 export function colored(char, color) {
-	return (color === undefined) ? char : (color + char + reset)
+	return (color === undefined) ? char : (color + char + RESET)
 }
 
 export function plot(series, config = undefined) {

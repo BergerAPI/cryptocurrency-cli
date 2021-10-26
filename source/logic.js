@@ -14,6 +14,35 @@ export const styles = {
 }
 
 /**
+ * Converting to this format: "Hello"
+ * @param {string} name 
+ */
+export function betterName(name) {
+	return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+}
+
+/**
+ * Getting the price of one coin.
+ * 
+ * @param {string} coinName 
+ * @param {string} currency 
+ * @returns 
+ */
+export async function getCoinPrice(coinName, currency) {
+	const price = await CoinGeckoClient.simple.price({
+		ids: coinName,
+		vs_currencies: [ currency ],
+	});
+
+	if (!price) {
+		console.error(`CoinGecko: No data for ${coinName}`)
+		process.exit(1)
+	}
+
+	return price[ "data" ][ coinName ][ currency ];
+}
+
+/**
  * Getting the price of one coin.
  * @param {string} coin 
  * @param {string} currency
