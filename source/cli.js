@@ -1,6 +1,6 @@
 import arg from "arg";
 import AsciiTable from "ascii-table/ascii-table";
-import { BLUE, GREEN, plot, RED, RESET, WHITE, YELLOW } from "./chart";
+import { BLUE, CYAN, GREEN, plot, RED, RESET, WHITE, YELLOW } from "./chart";
 import { betterName, getChartData, getCoinPrice, getCoinsList, styles } from "./logic"
 
 /**
@@ -11,7 +11,7 @@ export async function cli(raw) {
 	const args = arg(
 		{
 			"--ids": String,
-			"--th": Number,
+			"--divider": Number,
 			"--res": Number,
 			"--currency": String,
 			"--style": String,
@@ -38,8 +38,8 @@ export async function cli(raw) {
 		return
 	} else args[ "--ids" ] = args[ "--ids" ].split(",").map(x => x.trim().toLowerCase().replace(" ", "-"))
 
-	if (!args[ "--th" ])
-		args[ "--th" ] = 10
+	if (!args[ "--divider" ])
+		args[ "--divider" ] = 2
 
 	if (!args[ "--res" ])
 		args[ "--res" ] = 5
@@ -47,8 +47,8 @@ export async function cli(raw) {
 	if (!args[ "--style" ]) args[ "--style" ] = styles[ "smooth" ]
 	else args[ "--style" ] = styles[ args[ "--style" ] ]
 
-	const colors = [ GREEN, RED, BLUE, YELLOW ]
-	const data = await Promise.all(await getChartData(args[ "--ids" ], args[ "--currency" ], args[ "--th" ]))
+	const colors = [ GREEN, CYAN, BLUE, YELLOW ]
+	const data = await Promise.all(await getChartData(args[ "--ids" ], args[ "--currency" ], args[ "--divider" ]))
 	const coinPrices = await Promise.all(args[ "--ids" ].map(async (id) => await getCoinPrice(id, args[ "--currency" ])))
 
 	// Calculate the height of the chart

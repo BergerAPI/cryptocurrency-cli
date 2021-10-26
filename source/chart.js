@@ -79,7 +79,7 @@ export function plot(series, config = undefined) {
 	width = width + offset
 
 	let symbols = (typeof config.symbols !== 'undefined') ? config.symbols : defaultSymbols
-	let format = (typeof config.format !== 'undefined') ? config.format : function (x) {
+	let format = (typeof config.format !== 'undefined') ? config.format : (x) => {
 		return (padding + x.toFixed(5)).slice(-padding.length)
 	}
 
@@ -99,6 +99,7 @@ export function plot(series, config = undefined) {
 
 	for (let j = 0; j < series.length; j++) {
 		let currentColor = colors[ j % colors.length ]
+		let lastColor = undefined
 		let y0 = Math.round(series[ j ][ 0 ] * ratio) - min2
 
 		result[ rows - y0 ][ offset - 1 ] = colored(symbols[ 0 ], currentColor)
@@ -107,16 +108,21 @@ export function plot(series, config = undefined) {
 			let y0 = Math.round(series[ j ][ x + 0 ] * ratio) - min2
 			let y1 = Math.round(series[ j ][ x + 1 ] * ratio) - min2
 
-			if (y0 == y1) result[ rows - y0 ][ x + offset ] = colored(symbols[ 4 ], currentColor)
+			if (y0 == y1) result[ rows - y0 ][ x + offset ] = colored(symbols[ 4 ], lastColor ? lastColor : currentColor)
 			else {
-				result[ rows - y1 ][ x + offset ] = colored((y0 > y1) ? symbols[ 5 ] : symbols[ 6 ], currentColor)
-				result[ rows - y0 ][ x + offset ] = colored((y0 > y1) ? symbols[ 7 ] : symbols[ 8 ], currentColor)
+				// We want to color every drop red, and every high green
+				let color = (y0 < y1) ? currentColor : LIGHT_RED
+
+				result[ rows - y1 ][ x + offset ] = colored((y0 > y1) ? symbols[ 5 ] : symbols[ 6 ], color)
+				result[ rows - y0 ][ x + offset ] = colored((y0 > y1) ? symbols[ 7 ] : symbols[ 8 ], color)
 
 				let from = Math.min(y0, y1)
 				let to = Math.max(y0, y1)
 
 				for (let y = from + 1; y < to; y++)
-					result[ rows - y ][ x + offset ] = colored(symbols[ 9 ], currentColor)
+					result[ rows - y ][ x + offset ] = colored(symbols[ 9 ], color)
+
+				lastColor = color
 			}
 		}
 	}
