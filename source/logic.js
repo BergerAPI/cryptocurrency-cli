@@ -18,7 +18,7 @@ export const styles = {
  * @param {string} name 
  */
 export function betterName(name) {
-	return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+	return name.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(" ");
 }
 
 /**
@@ -40,6 +40,18 @@ export async function getCoinPrice(coinName, currency) {
 	}
 
 	return price[ "data" ][ coinName ][ currency ];
+}
+
+/**
+ * Getting data for some coins.
+ * @returns {string}
+ */
+export async function getCoinsList() {
+	const coinsList = await CoinGeckoClient.coins.all({
+		per_page: 25,
+	});
+
+	return coinsList.data;
 }
 
 /**

@@ -1,6 +1,7 @@
 import arg from "arg";
+import AsciiTable from "ascii-table/ascii-table";
 import { BLUE, GREEN, plot, RED, RESET, WHITE, YELLOW } from "./chart";
-import { betterName, getChartData, getCoinPrice, styles } from "./logic"
+import { betterName, getChartData, getCoinPrice, getCoinsList, styles } from "./logic"
 
 /**
  * Our main method.
@@ -20,8 +21,20 @@ export async function cli(raw) {
 		}
 	)
 
+	if (!args[ "--currency" ])
+		args[ "--currency" ] = "usd"
+
 	if (!args[ "--ids" ]) {
-		console.error("You must specify an id")
+		const table = new AsciiTable()
+
+		table.setHeading("ID", "Symbol", "Price", "High 24h");
+
+		(await getCoinsList()).forEach(coin => {
+			table.addRow(betterName(coin.id.replace("-", " ")), coin.symbol.toUpperCase(), coin.market_data.current_price[ args[ "--currency" ] ] + " " + args[ "--currency" ].toUpperCase(), coin.market_data.high_24h[ args[ "--currency" ] ] + " " + args[ "--currency" ].toUpperCase());
+		});
+
+		console.log(table.toString());
+
 		return
 	} else args[ "--ids" ] = args[ "--ids" ].split(",").map(x => x.trim().toLowerCase().replace(" ", "-"))
 
@@ -30,9 +43,6 @@ export async function cli(raw) {
 
 	if (!args[ "--res" ])
 		args[ "--res" ] = 5
-
-	if (!args[ "--currency" ])
-		args[ "--currency" ] = "usd"
 
 	if (!args[ "--style" ]) args[ "--style" ] = styles[ "smooth" ]
 	else args[ "--style" ] = styles[ args[ "--style" ] ]

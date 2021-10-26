@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "arg": "^5.0.1",
+    "ascii-table": "^0.0.9",
     "coingecko-api": "^1.0.10",
     "esm": "^3.2.25"
   }
