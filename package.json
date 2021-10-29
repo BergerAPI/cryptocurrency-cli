@@ -1,19 +1,25 @@
 {
   "name": "cli-crypto",
   "version": "1.0.0",
-  "description": "",
+  "description": "Basically CoinGecko, but as Command Line Tool",
   "main": "index.js",
-  "bin": "bin/cli-crypto",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "ts-node source/main.ts",
+    "build": "tsc --build"
   },
-  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BergerAPI/cli-crypto.git"
+  },
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "arg": "^5.0.1",
-    "ascii-table": "^0.0.9",
-    "coingecko-api": "^1.0.10",
-    "esm": "^3.2.25"
+  "bugs": {
+    "url": "https://github.com/BergerAPI/cli-crypto/issues"
+  },
+  "homepage": "https://github.com/BergerAPI/cli-crypto#readme",
+  "devDependencies": {
+    "@types/node": "^16.11.6",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.4.4"
   }
 }
