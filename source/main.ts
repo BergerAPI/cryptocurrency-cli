@@ -1,3 +1,5 @@
+import { Component } from "./components/component";
+import { Table } from "./components/list/table";
 import Parser from "./parameter";
 
 /**
@@ -6,10 +8,19 @@ import Parser from "./parameter";
 function run() {
 	const parameter = new Parser()
 		.param("test", Boolean)
-		.param("test2", Number, true)
+		.param("test2", String, true)
 		.parse();
 
-	console.log(parameter.get("test2"));
+	const table: Component = new Table([
+		["Name", "Description", "Skills"],
+		["", "", ""],
+		["Martin", "SIMEX", "Nothing"],
+		["Niclas", "NARUTO", "Dancing"],
+		["Dustin", "TTURNA", "Programming"],
+		["Simon", "MENE", "dying"],
+	]);
+
+	table.print();
 }
 
 run();
