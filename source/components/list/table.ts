@@ -9,12 +9,12 @@ export class Table implements Component {
      * Maximal length of a table cell.
      * @private
      */
-    private MAX_LENGTH: number = 20;
+    private MAX_LENGTH: number = 30;
 
     /**
      * We need to border the table.
      */
-    borders: string[] = ["┌", "└", "┐", "┘", "─", "│"];
+    borders: string[] = ["┌", "└", "┐", "┘", "─", "│", "┬", "┴"];
 
     /**
      * Checking if a cell is longer than 20 characters.
@@ -55,7 +55,10 @@ export class Table implements Component {
         return this.checkCells(result);
     }
 
-    constructor(public data: any[][], public padding: number = 2) {
+    constructor(public data: any[][], public padding: number = 6) {
+        if (this.padding % 2 != 0)
+            throw new Error("Padding must be an even number.");
+
         this.data = this.checkCells(data);
     }
 
@@ -73,7 +76,25 @@ export class Table implements Component {
         let result = [];
 
         // Printing the table with borders.
-        result.push(this.borders[0] + this.borders[4].repeat(width) + this.borders[2]);
+        let line: string = "";
+
+        // For setting the connections
+        let counter: number = 0;
+        let steps: number = 0;
+
+        for (let i = 0; i < width; i++) {
+
+            // Checking if we'd need to place a straight icon.
+            if (counter == biggestElement + this.padding + steps) {
+                counter = 0;
+                steps++;
+                line += this.borders[6];
+            } else line += this.borders[4];
+
+            counter++;
+        }
+
+        result.push(this.borders[0] + line + this.borders[2]);
 
         this.data.forEach(row => {
             let line = this.borders[5];
@@ -88,7 +109,8 @@ export class Table implements Component {
             result.push(line);
         });
 
-        result.push(this.borders[1] + this.borders[4].repeat(width) + this.borders[3]);
+        // Using a RegExp instead of replaceAll, since I can't use es2021 right now.
+        result.push(this.borders[1] + line.replace(new RegExp(this.borders[6], 'g'), this.borders[7]) + this.borders[3]);
 
         // Printing the result.
         result.forEach(line => console.log(line));
