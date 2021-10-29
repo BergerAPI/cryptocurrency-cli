@@ -1,73 +1,70 @@
 import {Component} from "../component";
 
 /**
+ * Maximal length of a table cell.
+ * @private
+ */
+export const MAX_LENGTH: number = 30;
+
+/**
+ * An entry, that can have multiple lines
+ */
+class TableEntry {
+    /**
+     * All lines of this entry
+     */
+    lines: any[][] = [];
+
+    constructor(public raw: any[]) {
+        // Checking if an entry is too long
+        const biggest = Math.max(...this.raw.map(element => element.toString().length));
+
+        // First line.
+        this.lines.push(this.raw.map(x => x.toString().substring(0, MAX_LENGTH)));
+
+        // We have an entry that is too long
+        if (biggest > MAX_LENGTH) {
+
+            // Remaining lines.
+            for (let i = 0; i < this.raw.length; i++)
+                this.lines.push(this.raw.map(x => x.toString().substring(MAX_LENGTH * (i + 1), MAX_LENGTH * (i + 2))));
+        }
+    }
+}
+
+/**
  * A basic table component.
  */
 export class Table implements Component {
 
     /**
-     * Maximal length of a table cell.
-     * @private
-     */
-    private MAX_LENGTH: number = 30;
-
-    /**
      * We need to border the table.
      */
-    borders: string[] = ["┌", "└", "┐", "┘", "─", "│", "┬", "┴"];
+    borders: string[] = ["┌", "└", "┐", "┘", "─", "│", "┬", "┴", "┼", "├", "┤"];
 
     /**
-     * Checking if a cell is longer than 20 characters.
-     * @param data the data to check
-     * @private
+     * The table entries.
      */
-    private checkCells(data: string[][]): string[][] {
-        const result: string[][] = [];
+    data: TableEntry[] = [];
 
-        // We need to check if a cell is over 20 chars, if so, we need to put it onto another line.
-        // This happens in the result array.
-        data.forEach((row) => {
-            let currentLine: any[] = [];
-            let nextArray: any[] = [];
-
-            row.forEach((column, index) => {
-                if (column.toString().length > this.MAX_LENGTH) {
-                    currentLine.push(column.toString().substring(0, this.MAX_LENGTH));
-
-                    for (let a = 0; a < row.length; a++)
-                        if (nextArray[a] === undefined || nextArray[a] === "")
-                            nextArray[a] = "-";
-
-                    nextArray[index] = column.toString().substring(this.MAX_LENGTH, column.toString().length);
-                } else currentLine.push(column);
-            })
-
-            result.push(currentLine)
-            if (nextArray.length != 0) result.push(nextArray);
-        });
-
-        // If checked and data are the same , we can return the checked data.
-        if (Math.max(...result.map(row => Math.max(...row.map(element => element.toString().length)))) <= this.MAX_LENGTH)
-            return result;
-
-        return this.checkCells(result);
-    }
-
-    constructor(public data: any[][], public padding: number = 6) {
+    constructor(data: any[][] | TableEntry[], public padding: number = 2) {
         if (this.padding % 2 != 0)
             throw new Error("Padding must be an even number.");
 
-        this.data = this.checkCells(data);
+        // Mapping to TableEntries if we don't have them already inside the array.
+        if (data[0] instanceof TableEntry)
+            this.data = data as TableEntry[];
+        else
+            this.data = data.map(row => new TableEntry(row as any[]));
     }
 
     /**
      * @see Component.print
      */
     print(): void {
-        const biggestElement = Math.max(...this.data.map(row =>
-            Math.max(...row.map(element => element.toString().length))));
-
-        const longestRow = Math.max(...this.data.map(x => x.length))
+        // @ts-ignore
+        const biggestElement = Math.max(...this.data.map(entry => Math.max(...entry.lines.map(row => Math.max(...row.map(element => element.toString().length))))));
+        const longestRow = Math.max(...this.data.map(x => x.raw.length))
         const width = longestRow * biggestElement + this.padding * longestRow + 2;
 
         // A list of all lines
@@ -94,17 +91,22 @@ export class Table implements Component {
 
         result.push(this.borders[0] + line + this.borders[2]);
 
-        this.data.forEach(row => {
-            let line = this.borders[5];
+        this.data.forEach((entries, index) => {
+            entries.lines.forEach(row => {
+                let line = this.borders[5];
 
-            row.forEach(cell => {
-                line += " ".repeat(this.padding / 2)
-                line += cell.toString()
-                line += " ".repeat(biggestElement - cell.toString().length + this.padding / 2)
-                line += this.borders[5]
+                row.forEach(cell => {
+                    line += " ".repeat(this.padding / 2)
+                    line += cell.toString()
+                    line += " ".repeat(biggestElement - cell.toString().length + this.padding / 2)
+                    line += this.borders[5]
+                })
+
+                result.push(line);
             });
 
-            result.push(line);
+            if (index != this.data.length - 1)
+                result.push(this.borders[9] + line.replace(new RegExp(this.borders[6], 'g'), this.borders[8]) + this.borders[10]);
         });
 
         // Using a RegExp instead of replaceAll, since I can't use es2021 right now.
