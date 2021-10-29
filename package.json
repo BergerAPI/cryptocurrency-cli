@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "ts-node source/main.ts",
     "build": "tsc --build",
-    "package": "tsc --build ; pkg dist/main.js --no-bytecode --public-packages '*' --public --target host --output bin/main"
+    "package": "tsc --build && pkg dist/main.js --no-bytecode --public-packages '*' --public --target host --output bin/main"
   },
   "repository": {
     "type": "git",
