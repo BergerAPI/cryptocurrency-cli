@@ -33,14 +33,12 @@ export class Table implements Component {
             row.forEach((column, index) => {
                 if (column.toString().length > this.MAX_LENGTH) {
                     currentLine.push(column.toString().substring(0, this.MAX_LENGTH));
-                    nextArray.push(column.toString().substring(this.MAX_LENGTH, column.toString().length));
 
-                    if (index + 1 < row.length) {
-                        const nextElement = row[index + 1].toString()
+                    for (let a = 0; a < row.length; a++)
+                        if (nextArray[a] === undefined || nextArray[a] === "")
+                            nextArray[a] = "-";
 
-                        if (nextElement == "" || nextElement == "-")
-                            nextArray.push("-")
-                    }
+                    nextArray[index] = column.toString().substring(this.MAX_LENGTH, column.toString().length);
                 } else currentLine.push(column);
             })
 

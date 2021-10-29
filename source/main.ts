@@ -7,12 +7,11 @@ import { Table } from "./components/list/table";
 function run() {
 	const table: Component = new Table([
 		["Name", "Description", "Skills"],
-		["", "", ""],
-		["NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN", "", "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"],
-		["Martin", "SIMEX", "STANDING"],
-		["Niclas", "NARUTO", "Dancing"],
-		["Dustin", "TTURNA", "Programming"],
-		["Simon", "MENE", "dying"],
+		["A", "A", "duis ultricies lacus sed turpis tincidunt id aliquet risusduis ultricies lacus sed turpis tincidunt id aliquet risus"],
+		["Martin", "SIMEX", "duis ultricies lacus sed turpis tincidunt id aliquet risusduis ultricies lacus sed turpis tincidunt id aliquet risus"],
+		["Niclas", "NARUTO", "duis ultricies lacus sed turpis tincidunt id aliquet risusduis ultricies lacus sed turpis tincidunt id aliquet risus"],
+		["Dustin", "TTURNA", "duis ultricies lacus sed turpis tincidunt id aliquet risusduis ultricies lacus sed turpis tincidunt id aliquet risus"],
+		["Simon", "MENE", "duis ultricies lacus sed turpis tincidunt id aliquet risusduis ultricies lacus sed turpis tincidunt id aliquet risus"],
 	]);
 
 	table.print();
