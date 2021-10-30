@@ -25,8 +25,14 @@ class TableEntry {
 			do {
 				const match = expr.exec(subject);
 
-				if (newLines[currentIndex] == undefined)
-					newLines.push(["", "", ""]);
+				if (newLines[currentIndex] == undefined) {
+					const newLine: any[] = [];
+
+					for (let index = 0; index < raw.length; index++)
+						newLine.push('');
+
+					newLines.push(newLine);
+				}
 
 				if (match) {
 					subject = subject.slice(match[0].length);
