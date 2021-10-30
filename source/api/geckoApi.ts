@@ -26,6 +26,16 @@ class CoinEndpoint {
 	public async get(id: string) {
 		return (await axios.get(`https://api.coingecko.com/api/v3/coins/${id}`)).data;
 	}
+
+	/**
+	 * Fetching the chart informations.
+	 * @param id Coin id.
+	 * @param currency The currency to get the price in.
+	 * @returns any
+	 */
+	public async marketChart(id: string, currency: string = "usd", days: number = 1) {
+		return (await axios.get(`https://api.coingecko.com/api/v3/coins/${id}/market_chart?vs_currency=${currency}&days=${days}`)).data;
+	}
 }
 
 /**
