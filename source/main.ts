@@ -14,8 +14,12 @@ async function run() {
 	const coins = await gecko.coin.markets();
 
 	const table: Component = new Table([
-		["Id", "Price"],
-		...coins.map((coin) => [coin["name"], coin["current_price"]]),
+		["Id", "Price", "Lorem"],
+		...coins.map((coin) => {
+			const price = parseInt(coin["current_price"]).toLocaleString(undefined, { minimumFractionDigits: 2 })
+
+			return [coin["name"], price, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus pulvinar nibh sed mauris convallis dapibus. Nunc venenatis tempus nulla sit amet viverra."]
+		}),
 	]);
 
 	table.print();

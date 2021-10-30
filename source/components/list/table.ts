@@ -16,16 +16,31 @@ class TableEntry {
 	lines: any[][] = [];
 
 	constructor(public raw: any[]) {
-		// Checking if an entry is too long
-		const biggest = Math.max(...raw.map(element => element.toString().length));
+		const expr = new RegExp('(^.{1,' + MAX_LENGTH + '}(\\s+|$))|(^.{1,' + String(MAX_LENGTH - 1) + '}(\\\\|/|_|\\.|,|;|-))');
+		let newLines: any[][] = [];
 
-		// First line.
-		this.lines.push(raw.map(x => x.toString().substring(0, MAX_LENGTH)));
+		raw.forEach((subject, index) => {
+			let currentIndex = 0;
 
-		// Remaining lines.
-		if (biggest > MAX_LENGTH)
-			for (let i = 1; i < Math.ceil((biggest / MAX_LENGTH) / 1) * 1; i++)
-				this.lines.push(raw.map(x => x.toString().substring(MAX_LENGTH * i, MAX_LENGTH * (i + 1)).trim()));
+			do {
+				const match = expr.exec(subject);
+
+				if (newLines[currentIndex] == undefined)
+					newLines.push(["", "", ""]);
+
+				if (match) {
+					subject = subject.slice(match[0].length);
+					newLines[currentIndex][index] = match[0];
+				} else {
+					subject = subject.slice(MAX_LENGTH);
+					newLines[currentIndex][index] = subject.slice(0, MAX_LENGTH);
+				}
+
+				currentIndex++;
+			} while (subject.length);
+		});
+
+		newLines.forEach(line => this.lines.push(line));
 	}
 }
 
@@ -59,9 +74,7 @@ export class Table implements Component {
 	 * @see Component.print
 	 */
 	print(): void {
-		// @ts-ignore
 		const longestRow = Math.max(...this.data.map(x => x.raw.length))
-		const width = longestRow * (MAX_LENGTH + this.padding) + this.padding;
 
 		// A list of all lines
 		let result = [];
