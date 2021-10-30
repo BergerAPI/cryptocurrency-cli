@@ -69,7 +69,7 @@ async function displayTable(currency: string, precision: number) {
 			const low = parseFloat(coin["low_24h"]).toFixed(precision).toString() + currencyChar;
 			const change = parseFloat(coin["price_change_24h"]).toFixed(precision).toString() + currencyChar;
 
-			return [coin["name"], price, high, low, change];
+			return [coin["id"], price, high, low, change];
 		}),
 	], {
 		padding: 2,
@@ -80,7 +80,7 @@ async function displayTable(currency: string, precision: number) {
 		process.stdout.write("\x1B[2J\x1B[0f");
 
 		// The data to show the chart
-		const chartData = (await gecko.coin.marketChart(entry.raw[0].toLowerCase(), currency)).prices.map((a: any) => a[1]);
+		const chartData = (await gecko.coin.marketChart(entry.raw[0], currency)).prices.map((a: any) => a[1]);
 
 		// The chart. (minus 2 because of "49011.72580 ┤" at the beginning)
 		const chart = new Chart(interpolate(chartData, process.stdout.columns - Math.max(...chartData).toFixed(precision).length - 2), precision, {
