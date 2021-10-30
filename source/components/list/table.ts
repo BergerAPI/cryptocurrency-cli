@@ -81,13 +81,15 @@ export class Table implements Component {
 	 * @see Component.print
 	 */
 	print(): void {
+		// The biggest element
+		const biggest = Math.max(...this.data.map(x => Math.max(...x.lines.map(y => Math.max(...y.map(z => z.length))))));
 		const longestRow = Math.max(...this.data.map(x => x.raw.length))
 
 		// A list of all lines
 		let result = [];
 
 		// Splitting here to a string array, since we need to change some characters.
-		let joinLine: string[] = this.borders[4].repeat((this.padding + MAX_LENGTH) * longestRow + (longestRow - 1)).split("");
+		let joinLine: string[] = this.borders[4].repeat((this.padding + biggest) * longestRow + (longestRow - 1)).split("");
 
 		this.data.forEach((entries, index) => {
 			entries.lines.forEach(row => {
@@ -100,12 +102,9 @@ export class Table implements Component {
 					let cell = rawCell.toString().replace(/\u001b\[\d+m/g, "");
 
 					if (cellIndex + 1 < row.length)
-						joinLine[line.replace(/\u001b\[\d+m/g, "").length + this.padding / 2 + MAX_LENGTH] = this.borders[6];
+						joinLine[line.replace(/\u001b\[\d+m/g, "").length + this.padding / 2 + biggest] = this.borders[6];
 
-					line += " ".repeat(this.padding / 2)
-					line += rawCell.toString();
-					line += " ".repeat(MAX_LENGTH - cell.length + this.padding / 2)
-					line += this.borders[5]
+					line += " ".repeat(this.padding / 2) + rawCell + " ".repeat(biggest - cell.length + this.padding / 2) + this.borders[5]
 				})
 
 				result.push(line);

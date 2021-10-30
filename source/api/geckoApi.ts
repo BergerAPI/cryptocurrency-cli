@@ -16,8 +16,8 @@ class CoinEndpoint {
 	 * Use this to obtain all the coins market data (price, market cap, volume)
 	 * @param currency Currency to get the price in.
 	 */
-	public async markets(currency: string = "usd") {
-		return (await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=market_cap_desc&per_page=5&page=1&sparkline=false`)).data as Array<any>;
+	public async markets(currency: string = "usd", count: number = 10) {
+		return (await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=market_cap_desc&per_page=${count}&page=1&sparkline=false`)).data as Array<any>;
 	}
 
 	/**

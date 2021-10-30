@@ -1,5 +1,5 @@
 /**
- * An class with lots of ascii utilities.
+ * A class with lots of ascii utilities.
  */
 export default class Colors {
 	static readonly black = '\x1b[30m';
