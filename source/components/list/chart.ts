@@ -10,7 +10,7 @@ export class Chart implements Component {
 	constructor(private data: any[], private precision: number, private config: any = undefined) { }
 
 	format(x: any) {
-		return x.toFixed(this.precision)
+		return x.toFixed(this.precision) + " "
 	}
 
 	/**
@@ -96,7 +96,7 @@ export class Chart implements Component {
 			result[rows - y0][offset - 1] = this.colored(symbols[0], currentColor)
 
 			for (let x = 0; x < this.data[j].length - 1; x++) {
-				let y0 = Math.round(this.data[j][x + 0] * ratio) - min2
+				let y0 = Math.round(this.data[j][x] * ratio) - min2
 				let y1 = Math.round(this.data[j][x + 1] * ratio) - min2
 
 				if (y0 == y1) result[rows - y0][x + offset] = this.colored(symbols[4], lastColor ? lastColor : currentColor)

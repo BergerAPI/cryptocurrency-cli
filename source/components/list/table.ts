@@ -80,11 +80,6 @@ export class TableConfig {
 export class Table implements Component {
 
 	/**
-	 * If we need keyboard input for user interaction.
-	 */
-	requireKeyInput: boolean = true;
-
-	/**
 	 * We need to border the table.
 	 * @private
 	 */

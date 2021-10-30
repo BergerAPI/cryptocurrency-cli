@@ -21,7 +21,7 @@ const currencies = {
 	"brl": "R$",
 	"cny": "¥",
 	"dkk": "kr",
-	"won": "₩",
+	"krw": "₩",
 	"hkd": "HK$",
 	"inr": "₹",
 	"jpy": "¥",
@@ -33,7 +33,8 @@ const currencies = {
 
 /**
  * Interpolating the data.
- * @param array the array to interpolate
+ * @param data the array to interpolate
+ * @param maxWidth
  */
 function interpolate(data: any[], maxWidth: number) {
 	const width = maxWidth || data.length;
