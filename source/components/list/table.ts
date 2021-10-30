@@ -66,32 +66,17 @@ export class Table implements Component {
 		// A list of all lines
 		let result = [];
 
-		// Printing the table with borders.
-		let line: string = "";
-
-		// For setting the connections
-		let counter: number = 0;
-		let steps: number = 0;
-
-		for (let i = 0; i < width; i++) {
-
-			// Checking if we'd need to place a straight icon.
-			if (counter == MAX_LENGTH + this.padding + steps) {
-				counter = 0;
-				steps++;
-				line += this.borders[6];
-			} else line += this.borders[4];
-
-			counter++;
-		}
-
-		result.push(this.borders[0] + line + this.borders[2]);
+		// Splitting here to a string array, since we need to change some characters.
+		let joinLine: string[] = this.borders[4].repeat((this.padding + MAX_LENGTH) * longestRow + (longestRow - 1)).split("");
 
 		this.data.forEach((entries, index) => {
 			entries.lines.forEach(row => {
 				let line = this.borders[5];
 
-				row.forEach(cell => {
+				row.forEach((cell, cellIndex) => {
+					if (cellIndex + 1 < row.length)
+						joinLine[line.length + this.padding / 2 + MAX_LENGTH] = this.borders[6];
+
 					line += " ".repeat(this.padding / 2)
 					line += cell.toString()
 					line += " ".repeat(MAX_LENGTH - cell.toString().length + this.padding / 2)
@@ -102,11 +87,12 @@ export class Table implements Component {
 			});
 
 			if (index != this.data.length - 1)
-				result.push(this.borders[9] + line.replace(new RegExp(this.borders[6], 'g'), this.borders[8]) + this.borders[10]);
+				result.push(this.borders[9] + joinLine.join("").replace(new RegExp(this.borders[6], 'g'), this.borders[8]) + this.borders[10]);
 		});
 
 		// Using a RegExp instead of replaceAll, since I can't use es2021 right now.
-		result.push(this.borders[1] + line.replace(new RegExp(this.borders[6], 'g'), this.borders[7]) + this.borders[3]);
+		result.unshift(this.borders[0] + joinLine.join("") + this.borders[2]);
+		result.push(this.borders[1] + joinLine.join("").replace(new RegExp(this.borders[6], 'g'), this.borders[7]) + this.borders[3]);
 
 		// Printing the result.
 		result.forEach(line => console.log(line));
