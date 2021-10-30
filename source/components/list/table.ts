@@ -148,6 +148,9 @@ export class Table implements Component {
                 let line = this.borders[5];
 
                 row.forEach((rawCell, cellIndex) => {
+                    if (index == 0 && this.config.header)
+                        rawCell = Colors.green + rawCell;
+
                     if (this.currentRow == index && this.config.scroll)
                         rawCell = Colors.whiteBG + Colors.black + rawCell;
 
