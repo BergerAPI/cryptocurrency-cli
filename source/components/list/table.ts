@@ -1,3 +1,4 @@
+import Colors from "../../color";
 import { Component } from "../component";
 
 /**
@@ -92,13 +93,18 @@ export class Table implements Component {
 			entries.lines.forEach(row => {
 				let line = this.borders[5];
 
-				row.forEach((cell, cellIndex) => {
+				row.forEach((rawCell, cellIndex) => {
+					rawCell += Colors.reset;
+
+					// We need the cell without any color codes.
+					let cell = rawCell.toString().replace(/\u001b\[\d+m/g, "");
+
 					if (cellIndex + 1 < row.length)
-						joinLine[line.length + this.padding / 2 + MAX_LENGTH] = this.borders[6];
+						joinLine[line.replace(/\u001b\[\d+m/g, "").length + this.padding / 2 + MAX_LENGTH] = this.borders[6];
 
 					line += " ".repeat(this.padding / 2)
-					line += cell.toString()
-					line += " ".repeat(MAX_LENGTH - cell.toString().length + this.padding / 2)
+					line += rawCell.toString();
+					line += " ".repeat(MAX_LENGTH - cell.length + this.padding / 2)
 					line += this.borders[5]
 				})
 

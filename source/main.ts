@@ -1,4 +1,5 @@
 import { GeckoApi } from "./api/geckoApi";
+import Colors from "./color";
 import { Component } from "./components/component";
 import { Table } from "./components/list/table";
 
@@ -14,7 +15,7 @@ async function run() {
 	const coins = await gecko.coin.markets();
 
 	const table: Component = new Table([
-		["Id", "Price", "Lorem"],
+		[Colors.underline + "Id", Colors.underline + "Price", Colors.underline + "Lorem"],
 		...coins.map((coin) => {
 			const price = parseInt(coin["current_price"]).toLocaleString(undefined, { minimumFractionDigits: 2 })
 
