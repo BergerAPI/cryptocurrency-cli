@@ -11,19 +11,26 @@ git clone https://github.com/BergerAPI/cli-crypto.git
 # Installing all dependencies 
 npm install
 
-# Linking so you can access it in a shell
-npm link
+# Creating the exeuctable in ./bin
+npm run package
+
+# Executing. (on linux and macos)
+./bin/main
+
+# Executing. (on windows)
+./bin/main.exe
 ```
 
+# How to use
+After you executed your executable, you should see a table, where you can select a coin (scroll with up and down). If you then select a coin, you will see the chart of one day.
+
+## Arguments
+- `currency` - The currency you want your graph to be shown
+- `precision` - How many decimals you want to see
+- `days` - How many days the chart should show (e.g. 1 or 365)
+
 # Grahps
-<img width="1235" alt="Screenshot 2021-10-26 at 3 06 13 PM" src="https://user-images.githubusercontent.com/58854363/138884925-e95d7af2-ec16-4400-88c3-2a46336dd266.png">
+<img width="791" alt="Screenshot 2021-10-31 at 1 46 50 PM" src="https://user-images.githubusercontent.com/58854363/139583992-339554d5-90a5-4ea3-9105-386ebe9a63d1.png">
 
 # Tables
-<img width="511" alt="Screenshot 2021-10-26 at 3 07 08 PM" src="https://user-images.githubusercontent.com/58854363/138885086-9e46665e-0398-4e88-9129-66c472660339.png">
-
-# Arguments
-- `ids` - The Crypto Currency you want to see (e.g. bitcoin)
-- `divider` - We can't the entire data set into the graph, so we have to divide it (`dataLength / divider`)
-- `res` - The resolution of the graph (higher resolution -> smaller graph, lower resolution -> bigger graph)
-- `currency` - The currency you want your graph to be shown
-- `style` - Change the style of your graph (lines, smooth, unsmooth, points, dots, blocks, diamonds)
+<img width="695" alt="Screenshot 2021-10-31 at 1 46 26 PM" src="https://user-images.githubusercontent.com/58854363/139583976-d8ba41b0-cb43-4eb7-9663-351e7a784296.png">
