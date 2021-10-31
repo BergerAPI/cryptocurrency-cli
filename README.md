@@ -1,6 +1,14 @@
-# CLI Cryptocurrency
+<div align="center">
+   <h1>Cryptocurrency CLI</h1>
+  
+   A simple cli-tool for looking at different cryptocurrencies. Our data is provied by CoinGeek, what allows you to send 50 requests per minute.
+</div>
 
-A simple cli-tool for looking at different cryptocurrencies. Our data is provied by CoinGeek, what allows you to send 50 requests per minute.
+# Supporters
+
+[![Stargazers repo roster for @BergerAPI/cryptocurrency-cli](https://reporoster.com/stars/dark/BergerAPI/cryptocurrency-cli)](https://github.com/BergerAPI/cryptocurrency-cli/stargazers)
+
+[![Forkers repo roster for @BergerAPI/cryptocurrency-cli](https://reporoster.com/forks/dark/BergerAPI/cryptocurrency-cli)](https://github.com/BergerAPI/cryptocurrency-cli/network/members)
 
 # Compiling
 ```bash
