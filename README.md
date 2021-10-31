@@ -1,7 +1,7 @@
 <div align="center">
    <h1>Cryptocurrency CLI</h1>
   
-   A simple cli-tool for looking at different cryptocurrencies. Our data is provied by CoinGeek, what allows you to send 50 requests per minute.
+   A simple cli-tool for looking at different cryptocurrencies. Our data is provided by CoinGeek, what allows you to send 50 requests per minute.
 </div>
 
 # Supporters
