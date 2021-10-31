@@ -37,19 +37,52 @@ const currencies = {
  * @param maxWidth
  */
 function interpolate(data: any[], maxWidth: number) {
-	const width = maxWidth || data.length;
-	const step = Math.floor(data.length / width);
+	// We want an array that has the same length as the maxWidth.
+	const newData = new Array(maxWidth);
 
-	const result = [];
+	// The index of the last element.
+	const lastIndex = data.length - 1;
 
-	for (let i = 0; i < width; i++) {
-		const start = i * step;
-		const end = (i + 1) * step;
+	// The index of the first element.
+	const firstIndex = 0;
 
-		result.push(data.slice(start, end).reduce((sum, value) => sum + value, 0) / step);
+	// The index of the current element.
+	let currentIndex = 0;
+
+	// The amount of elements we have to interpolate.
+	let interpolated = 0;
+
+	// We loop through the array.
+	for (let i = 0; i < newData.length; i++) {
+		// If the current index is bigger than the last index, we are done.
+		if (currentIndex > lastIndex) {
+			break;
+		}
+
+		// The amount of elements we have to interpolate.
+		interpolated = lastIndex - currentIndex;
+
+		// The amount of elements we have to interpolate.
+		const interpolation = (i / newData.length) * interpolated;
+
+		// The index of the element we are interpolating.
+		const index = Math.floor(interpolation + currentIndex);
+
+		// If the index is bigger than the last index, we set the last index.
+		if (index > lastIndex) {
+			newData[i] = data[lastIndex];
+		} else {
+			// If the index is bigger than the first index, we set the first index.
+			if (index > firstIndex) {
+				newData[i] = data[index];
+			} else {
+				newData[i] = data[firstIndex];
+			}
+		}
 	}
 
-	return result;
+	return newData;
+
 }
 
 /**
