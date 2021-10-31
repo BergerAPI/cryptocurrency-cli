@@ -9,7 +9,7 @@ import { Component } from "../component";
 export class Chart implements Component {
 	constructor(private data: any[], private precision: number, private config: any = undefined) { }
 
-	format(x: any) {
+	defaultFormat(x: any) {
 		return x.toFixed(this.precision) + " "
 	}
 
@@ -54,6 +54,8 @@ export class Chart implements Component {
 		const max2 = Math.round(max * height / range)
 		const rows = Math.abs(max2 - min2)
 
+		const format = (typeof this.config.format !== 'undefined') ? this.config.format : this.defaultFormat
+
 		let width = 0
 
 		for (let i = 0; i < this.data.length; i++)
@@ -73,13 +75,13 @@ export class Chart implements Component {
 		let maxLabel = 0
 
 		for (let i = 0; i < this.data.length; i++) {
-			let label = this.format(max - (i - min2) * range / rows)
+			let label = format(max - (i - min2) * range / rows)
 
 			maxLabel = Math.max(maxLabel, label.length)
 		}
 
 		for (let y = min2; y <= max2; ++y) {
-			let label = this.format(max - (y - min2) * range / rows)
+			let label = format(max - (y - min2) * range / rows)
 
 			if (label.length < maxLabel)
 				label = label + ' '.repeat(maxLabel - label.length)

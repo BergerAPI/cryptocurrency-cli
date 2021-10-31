@@ -57,14 +57,13 @@ function interpolate(data: any[], maxWidth: number) {
  * @param currency The currency we show the data in.
  * @param precision How accurate we want the data to be.
  */
-async function displayTable(currency: string, precision: number) {
+async function displayTable(currency: string, precision: number, days: number) {
+	const currencyChar = currencies[currency as keyof typeof currencies] || currency.toUpperCase();
 	const coins = await gecko.coin.markets(currency);
 
 	const table = new Table([
 		[Colors.underline + "Id", Colors.underline + "Price", Colors.underline + "24h High", Colors.underline + "24h Low", Colors.underline + "24h Change"],
 		...coins.map((coin) => {
-			const currencyChar = currencies[currency as keyof typeof currencies] || currency.toUpperCase();
-
 			const price = parseFloat(coin["current_price"]).toFixed(precision).toString() + currencyChar;
 			const high = parseFloat(coin["high_24h"]).toFixed(precision).toString() + currencyChar;
 			const low = parseFloat(coin["low_24h"]).toFixed(precision).toString() + currencyChar;
@@ -81,11 +80,15 @@ async function displayTable(currency: string, precision: number) {
 		process.stdout.write("\x1B[2J\x1B[0f");
 
 		// The data to show the chart
-		const chartData = (await gecko.coin.marketChart(entry.raw[0], currency)).prices.map((a: any) => a[1]);
+		const chartData = (await gecko.coin.marketChart(entry.raw[0], currency, days)).prices.map((a: any) => a[1]);
+
+		// The function to format the labels
+		const format = (x: any) => parseFloat(x).toFixed(precision).toString() + currencyChar + " "
 
 		// The chart. (minus 2 because of "49011.72580 ┤" at the beginning)
-		const chart = new Chart(interpolate(chartData, process.stdout.columns - Math.max(...chartData).toFixed(precision).length - 2), precision, {
+		const chart = new Chart(interpolate(chartData, process.stdout.columns - format(Math.max(...chartData).toFixed(precision)).length - 2), precision, {
 			height: Math.ceil(process.stdout.rows / 2),
+			format
 		});
 
 		chart.print();
@@ -101,6 +104,7 @@ async function run() {
 	const parameter = new Parser()
 		.param("currency", String)
 		.param("precision", Number)
+		.param("days", Number)
 		.parse();
 
 	// Clearing the screen.
@@ -108,7 +112,8 @@ async function run() {
 
 	await displayTable(
 		parameter.get("currency") == false ? "usd" : parameter.get("currency"),
-		parameter.get("precision") == false ? 2 : parameter.get("precision")
+		parameter.get("precision") == false ? 2 : parameter.get("precision"),
+		parameter.get("days") == false ? 1 : parameter.get("days"),
 	);
 }
 
