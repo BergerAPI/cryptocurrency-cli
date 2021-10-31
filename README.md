@@ -3,7 +3,7 @@
 
 Basically CoinGeek but in your terminal.
 
-# Setup
+# Compiling
 ```bash
 # Cloning the Repository
 git clone https://github.com/BergerAPI/cli-crypto.git
@@ -20,6 +20,9 @@ npm run package
 # Executing. (on windows)
 ./bin/main.exe
 ```
+
+# Downloading
+You can just click at the latest release (on the right side of this repository) and then onto the `cli-crypto` file
 
 # How to use
 After you executed your executable, you should see a table, where you can select a coin (scroll with up and down). If you then select a coin, you will see the chart of one day.
