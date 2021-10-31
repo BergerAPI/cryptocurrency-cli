@@ -1,7 +1,6 @@
-# cli-crypto
-**WARNING: THIS APPLICATION WAS MADE FOR EDUCATIONAL PURPOSES AND NOT FOR REAL CRYPTO TRADING. YOU MAY LOOSE ACCURACY USING THIS TOOL.**
+# CLI Cryptocurrency
 
-Basically CoinGeek but in your terminal.
+A simple cli-tool for looking at different cryptocurrencies. Our data is provied by CoinGeek, what allows you to send 50 requests per minute.
 
 # Compiling
 ```bash
