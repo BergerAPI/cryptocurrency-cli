@@ -33,4 +33,7 @@ After you executed your executable, you should see a table, where you can select
 - `days` - How many days the chart should show (e.g. 1 or 365)
 
 # Example
-<img width="791" alt="Screenshot 2021-10-31 at 1 46 50 PM" src="https://user-images.githubusercontent.com/58854363/139583992-339554d5-90a5-4ea3-9105-386ebe9a63d1.png">
+<img width="1440" alt="Screenshot 2021-10-31 at 2 42 47 PM" src="https://user-images.githubusercontent.com/58854363/139586535-5ef45422-c897-495e-a466-4121e7cbcb61.png">
+
+## Same day compared to CoinGecko
+<img width="1285" alt="Screenshot 2021-10-31 at 2 43 23 PM" src="https://user-images.githubusercontent.com/58854363/139586558-1e7d51b1-13f4-45eb-a35c-5d8942fa1b54.png">
